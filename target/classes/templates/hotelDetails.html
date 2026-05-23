@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Details | Roomify</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body {
+    background: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(0,0,0,0.8);
+}
+.navbar-brand {
+    color: gold !important;
+    font-weight: bold;
+}
+
+/* Hero */
+.hero {
+    height: 45vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+.hero-content {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    color: white;
+}
+
+/* Card */
+.section-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* Room */
+.room-card {
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fafafa;
+}
+
+.price {
+    font-weight: bold;
+    color: green;
+}
+
+.available { color: green; }
+.not-available { color: red; }
+
+/* Review */
+.review-card {
+    border-left: 4px solid gold;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+/* Button */
+.btn-book {
+    background: linear-gradient(45deg, #d4af37, #f9d423);
+    border: none;
+    font-weight: 600;
+}
+
+</style>
+    <link href="/css/roomify-pro.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-4">
+    <a class="navbar-brand" href="/">🏨 Roomify</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero" th:style="'background-image:url(' + ${hotel.hotelImage} + ')'">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h2 th:text="${hotel.hotelName}"></h2>
+        <p th:text="${hotel.location}"></p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- 🔥 Rooms Section -->
+    <div class="section-card">
+        <h4>Available Rooms</h4>
+
+        <div th:each="room : ${hotel.rooms}" class="room-card row align-items-center">
+
+            <div class="col-md-3">
+                <img th:src="${room.roomImage}" class="img-fluid rounded">
+            </div>
+
+            <div class="col-md-3">
+                <strong th:text="${room.roomType}"></strong>
+            </div>
+
+            <div class="col-md-2 price">
+                ₹ <span th:text="${room.price}"></span>
+            </div>
+
+            <div class="col-md-2">
+                <span th:if="${room.available}" class="available">Available</span>
+                <span th:if="${!room.available}" class="not-available">Sold Out</span>
+            </div>
+
+            <div class="col-md-2">
+				<a th:if="${room.available}" 
+				   th:href="@{'/room/book/' + ${room.roomId}}" 
+				   class="btn btn-custom btn-primary w-100 mt-2">
+				    Book Now
+				</a>
+
+                <button th:if="${!room.available}" class="btn btn-secondary w-100" disabled>
+                    Unavailable
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 🔥 Reviews Section -->
+    <div class="section-card">
+        <h4>⭐ Reviews</h4>
+
+        <div th:if="${#lists.isEmpty(hotel.reviews)}">
+            <p>No reviews yet 😕</p>
+        </div>
+
+        <div th:each="review : ${hotel.reviews}" class="review-card">
+            <strong th:text="${review.userName}"></strong>
+            <span>⭐ <span th:text="${review.rating}"></span></span>
+            <p th:text="${review.comment}"></p>
+        </div>
+
+        <!-- Write Review -->
+        <button class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
+            Write Review
+        </button>
+    </div>
+
+</div>
+
+<!-- 🔥 Review Modal -->
+<div class="modal fade" id="reviewModal">
+  <div class="modal-dialog">
+    <div class="modal-content p-3">
+
+      <form action="/review/add" method="post">
+
+        <input type="hidden" name="hotelId" th:value="${hotel.hotelId}" />
+		<input type="hidden" name="checkIn" th:value="${param.checkIn}" />
+		<input type="hidden" name="checkOut" th:value="${param.checkOut}" />
+
+        <label>Rating</label>
+		<select name="rating" required>
+		    <option value="">Select Rating</option>
+		    <option value="5">5 ⭐</option>
+		    <option value="4">4 ⭐</option>
+		    <option value="3">3 ⭐</option>
+		    <option value="2">2 ⭐</option>
+		    <option value="1">1 ⭐</option>
+		</select>
+
+        <label class="mt-2">Comment</label>
+        <textarea name="comment" class="form-control"></textarea>
+
+        <button class="btn btn-success mt-3 w-100">Submit Review</button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/js/roomify-ui.js"></script>
+</body>
+</html>

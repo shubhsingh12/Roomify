@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945'); /* hotel bg */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .card {
+            text-align: center;
+            padding: 50px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            max-width: 500px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 90px;
+            color: #ff4c4c;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: 28px;
+        }
+
+        p {
+            margin: 15px 0;
+            color: #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #ff4c4c;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff1f1f;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <link href="/css/roomify-pro.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="card">
+    <!-- Status Code -->
+    <h1 th:text="${status}">500</h1>
+
+    <!-- Error Title -->
+    <h2 th:text="${error}">Something went wrong</h2>
+
+    <!-- Message -->
+    <p th:text="${message}">Unexpected error occurred</p>
+
+    <!-- Path -->
+    <p style="font-size:13px; color:#aaa;">
+        Path: <span th:text="${path}">/</span>
+    </p>
+
+    <a href="/" class="btn">Go to Home</a>
+</div>
+
+    <script src="/js/roomify-ui.js"></script>
+</body>
+</html>

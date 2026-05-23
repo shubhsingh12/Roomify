@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed | Roomify</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- AOS Animation -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<style>
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+}
+
+/* 🔥 Navbar */
+.navbar {
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+}
+.navbar-brand {
+    color: gold !important;
+    font-weight: bold;
+}
+
+/* 🔥 Hero */
+.hero {
+    height: 35vh;
+    background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.hero h1 {
+    background: rgba(0,0,0,0.6);
+    padding: 10px 25px;
+    border-radius: 10px;
+}
+
+/* 🔥 Card */
+.booking-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: -80px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    transition: 0.4s;
+}
+.booking-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Info rows */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Status badge */
+.status {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.pending { background: orange; color: white; }
+.confirmed { background: green; color: white; }
+
+/* Button */
+.btn-print {
+    background: linear-gradient(45deg, gold, orange);
+    border: none;
+}
+
+/* Footer */
+.footer {
+    background: #111;
+    color: #ccc;
+    padding: 30px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+</style>
+    <link href="/css/roomify-pro.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- 🔥 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark px-4">
+    <a class="navbar-brand" href="#">🏨 Roomify</a>
+    <div class="ms-auto">
+        <a href="/" class="btn btn-outline-light btn-sm me-2">Home</a>
+        <a href="/booking/myBooking" class="btn btn-outline-warning btn-sm">My Bookings</a>
+    </div>
+</nav>
+
+<!-- 🔥 Hero -->
+<div class="hero">
+    <h1 data-aos="fade-down">🎉 Booking Confirmed!</h1>
+</div>
+
+<!-- 🔥 Content -->
+<div class="container">
+
+    <div class="booking-card" data-aos="zoom-in">
+
+        <h4 class="mb-3">Booking Details</h4>
+
+        <div class="info-row">
+            <span>Booking ID</span>
+            <strong th:text="${booking.bookingId}"></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Room ID</span>
+            <strong th:text="${booking.roomId}"></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Check-In</span>
+            <strong th:text="${booking.checkInDate}"></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Check-Out</span>
+            <strong th:text="${booking.checkOutDate}"></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Guests</span>
+            <strong th:text="${booking.guests}"></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Total Price</span>
+            <strong>₹ <span th:text="${booking.totalPrice}"></span></strong>
+        </div>
+
+        <div class="info-row">
+            <span>Status</span>
+            <span th:classappend="${booking.status == 'CONFIRMED'} ? 'status confirmed' : 'status pending'"
+                  th:text="${booking.status}"></span>
+        </div>
+
+        <div class="info-row">
+            <span>Reference</span>
+            <strong th:text="${booking.bookingReference}"></strong>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4 d-flex gap-2">
+            <button onclick="window.print()" class="btn btn-print w-50">🖨 Print</button>
+            <a href="/" class="btn btn-dark w-50">🏠 Home</a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔥 Footer -->
+<div class="footer">
+    <p>© 2026 Roomify. All rights reserved.</p>
+    <p>Made with ❤️ by Satyam</p>
+</div>
+
+<!-- AOS Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({
+    duration: 1000
+});
+</script>
+
+    <script src="/js/roomify-ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings | Roomify</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<style>
+
+body {
+    background: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
+}
+.navbar-brand {
+    color: gold !important;
+    font-weight: bold;
+}
+
+/* Title */
+.page-title {
+    margin: 30px 0;
+    text-align: center;
+}
+
+/* Card */
+.booking-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+.booking-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Status */
+.status {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+}
+.confirmed { background: green; color: white; }
+.pending { background: orange; color: white; }
+.cancelled { background: red; color: white; }
+
+/* Buttons */
+.btn-cancel {
+    background: red;
+    color: white;
+}
+.btn-cancel:hover {
+    background: darkred;
+}
+
+.btn-pay {
+    background: linear-gradient(45deg, #28a745, #4caf50);
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+
+/* Empty */
+.empty {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Footer */
+.footer {
+    background: #111;
+    color: #ccc;
+    padding: 30px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+</style>
+    <link href="/css/roomify-pro.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- 🔥 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark px-4">
+    <a class="navbar-brand" href="#">🏨 Roomify</a>
+    <div class="ms-auto">
+        <a href="/" class="btn btn-outline-light btn-sm me-2">Home</a>
+        <a href="/hotel/searchPage" class="btn btn-outline-warning btn-sm">Search</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h2 class="page-title">📋 My Bookings</h2>
+
+    <!-- ❌ Empty -->
+    <div th:if="${#lists.isEmpty(bookings)}" class="empty">
+        <h4>No bookings yet 😕</h4>
+        <a href="/hotel/searchPage" class="btn btn-dark mt-3">Explore Hotels</a>
+    </div>
+
+    <!-- ✅ List -->
+    <div th:each="booking : ${bookings}" 
+         class="booking-card" 
+         data-aos="fade-up">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-3">
+                <h5>Booking #<span th:text="${booking.bookingId}"></span></h5>
+                <small th:text="${booking.bookingReference}"></small>
+            </div>
+
+            <div class="col-md-2">
+                <strong>Room</strong><br>
+                <span th:text="${booking.roomId}"></span>
+            </div>
+
+            <div class="col-md-2">
+                <strong>Dates</strong><br>
+                <span th:text="${booking.checkInDate}"></span> → 
+                <span th:text="${booking.checkOutDate}"></span>
+            </div>
+
+            <div class="col-md-1">
+                <strong>Guests</strong><br>
+                <span th:text="${booking.guests}"></span>
+            </div>
+
+            <div class="col-md-2">
+                <strong>Price</strong><br>
+                ₹ <span th:text="${booking.totalPrice}"></span>
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-1">
+                <span th:text="${booking.status}"
+                      th:classappend="
+                        ${booking.status == 'CONFIRMED'} ? 'status confirmed' :
+                        (${booking.status == 'PENDING'} ? 'status pending' : 'status cancelled')">
+                </span>
+            </div>
+
+            <!-- Actions -->
+            <div class="col-md-2">
+
+                <!-- Pay Now -->
+                <form th:if="${booking.status == 'PENDING'}"
+                      th:action="@{/payment/pay}" method="post">
+                    <input type="hidden" name="bookingId" th:value="${booking.bookingId}" />
+                    <button type="submit" class="btn btn-pay btn-sm w-100 mb-1">
+                        💳 Pay Now
+                    </button>
+                </form>
+
+                <!-- Cancel -->
+                <form th:if="${booking.status == 'CONFIRMED' or booking.status == 'PENDING'}"
+                      th:action="@{/booking/cancel}" method="post">
+                    <input type="hidden" name="bookingId" th:value="${booking.bookingId}" />
+                    <button type="submit" class="btn btn-cancel btn-sm w-100">
+                        Cancel
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔥 Footer -->
+<div class="footer">
+    <p>© 2026 Roomify. All rights reserved.</p>
+    <p>Made with ❤️ by Satyam</p>
+</div>
+
+<!-- AOS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init({ duration: 800 });
+</script>
+
+    <script src="/js/roomify-ui.js"></script>
+</body>
+</html>
