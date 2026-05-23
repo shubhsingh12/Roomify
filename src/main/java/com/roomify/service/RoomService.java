@@ -24,7 +24,7 @@ import com.roomify.response.RoomResponse;
 public class RoomService {
 
 	RestTemplate restTemplate=new RestTemplate();
-	String URL="http://localhost:2002/room";
+	String URL="http://roomifyhotel-production.up.railway.app/room";
 	public ResponseApi<RoomResponse> addRoom(RoomDto roomDto, MultipartFile img,String token) throws IOException {
 		String API="/addRoom";
 		HttpHeaders headers=new HttpHeaders();
