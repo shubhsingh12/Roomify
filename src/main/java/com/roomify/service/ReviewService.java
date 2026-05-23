@@ -17,7 +17,7 @@ public class ReviewService {
 	
 	RestTemplate restTemplate=new RestTemplate();
 	
-	String URL= "http://localhost:2005/review";
+	String URL= "http://roomifyreview-production.up.railway.app/review";
 	
 	
 	public void addReview(ReviewDto reviewDto, String token) {
