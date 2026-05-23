@@ -24,7 +24,7 @@ public class BookingService {
  
 			RestTemplate restTemplate=new RestTemplate();
 			
-			String URL= "http://localhost:2003/booking";
+			String URL= "http://roomifybooking-production.up.railway.app/booking";
 
 			public ResponseApi<BookingResponseDto> bookMyRoom(RoomBookingDto bookingDto,String token) {
 			try {
