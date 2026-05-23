@@ -30,7 +30,7 @@ public class AuthService {
 
 	RestTemplate restTemplate=new RestTemplate();
 	
-	String URL="http://localhost:2001/user";
+	String URL="http://roomifyuser-production.up.railway.app/user";
 	
 	public ResponseApi<?> registerUser(UserDTO userDTO) {
 		
