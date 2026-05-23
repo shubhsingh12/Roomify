@@ -19,7 +19,7 @@ public class PaymentService {
 	
 	RestTemplate restTemplate=new RestTemplate();
 	
-	String URL= "http://localhost:2003/booking";
+	String URL= "http://roomifypayment-production.up.railway.app/booking";
 	
 	public ResponseApi<BookingResponseDto> makePayment(Long bookingId,String token) {
 		
