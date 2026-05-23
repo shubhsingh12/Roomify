@@ -29,7 +29,7 @@ public class HotelService {
 	
 	RestTemplate restTemplate=new RestTemplate();
 	
-	String URL= "http://localhost:2002/hotel";
+	String URL= "http://roomifyhotel-production.up.railway.app/hotel";
 
 	public ResponseApi<HotelResponse> addHotel(HotelDto hotelDto, String token, MultipartFile img) throws IOException {
 
